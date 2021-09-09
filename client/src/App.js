@@ -8,7 +8,9 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-// import toast from "./components/Toast";
+import styled, { keyframes } from "styled-components";
+import { rubberBand } from "react-animations";
+
 
 function App() {
   const [formData, setFormData] = useState({ full: "" });
@@ -77,6 +79,7 @@ function App() {
       setUrlList((prevState) => [res.data, ...prevState]);
       setFormData({ full: "" });
       setDisableButton(false);
+      
       setShortenedLink(res.data)
     } catch (err) {
       
@@ -85,7 +88,15 @@ function App() {
       toast.error("😢 It's not you, it's us. 😢", { backgroundColor: "black" });
     }
   };
-
+  const removeLink = () => {
+    if(!showTable){
+    setShortenedLink('')
+    }
+    setShowTable(!showTable);
+  }
+var Bounce = styled.div`
+  animation: 1s ${keyframes`${rubberBand}`} 1;
+`;
   return (
     <>
       <ToastContainer
@@ -128,38 +139,62 @@ function App() {
             </Button>
           </Form>
         </Row>
-     {  shortenedLink !== '' && <Row className="justify-content-center mb-3">
-          <h3>Here is your url:  <span id={shortenedLink.full} onClick={countClick} style={{color: 'grey', textDecoration: 'underline'}}>{shortenedLink.short}</span></h3>
-        </Row> }
-
-        <Row className="justify-content-center mb-3">
-          <p
-            onClick={() => setShowTable(!showTable)}
-            style={{ letterSpacing: "1px" }}
-          >
-            {showTable ? (
-              <>
-                <span role="img" aria-label="finger-down">
-                  👇{" "}
+        {shortenedLink !== "" && (
+          <Row className="justify-content-center mb-3">
+            <Bounce>
+              <h3>
+                Here is your url:{" "}
+                <span
+                  id={shortenedLink.full}
+                  onClick={countClick}
+                  style={{ color: "grey", textDecoration: "underline" }}
+                >
+                  {shortenedLink.short}
                 </span>
-                Close table{" "}
-                <span role="img" aria-label="finger-down">
-                  👇
-                </span>
-              </>
-            ) : (
-              <>
-                <span role="img" aria-label="finger-right">
-                  👉{" "}
-                </span>{" "}
-                Show previous url's{" "}
-                <span role="img" aria-label="finger-left">
-                  👈{" "}
-                </span>{" "}
-              </>
-            )}
-          </p>
-        </Row>
+              </h3>
+            </Bounce>
+          </Row>
+        )}
+        {urlList.length === 0 ? (
+          <Row className="justify-content-center mb-3">
+            <h5>
+              <span role="img" aria-label="finger-down">
+                🤷‍♀️{" "}
+              </span>
+              No url's to display
+              <span role="img" aria-label="finger-down">
+                {" "}
+                🤷‍♂️
+              </span>
+            </h5>
+          </Row>
+        ) : (
+          <Row className="justify-content-center mb-3">
+            <p onClick={removeLink} style={{ letterSpacing: "1px" }}>
+              {showTable ? (
+                <>
+                  <span role="img" aria-label="finger-down">
+                    👇{" "}
+                  </span>
+                  Close table{" "}
+                  <span role="img" aria-label="finger-down">
+                    👇
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span role="img" aria-label="finger-right">
+                    👉{" "}
+                  </span>{" "}
+                  Show all url's{" "}
+                  <span role="img" aria-label="finger-left">
+                    👈{" "}
+                  </span>{" "}
+                </>
+              )}
+            </p>
+          </Row>
+        )}
         {showTable && (
           <UrlTable urls={urlList} increment={increment} count={count} />
         )}

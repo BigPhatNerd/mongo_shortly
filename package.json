@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
     "mongoose": "^5.12.3",
+    "react-animations": "^1.0.0",
     "shortid": "^2.2.16"
   },
   "devDependencies": {
