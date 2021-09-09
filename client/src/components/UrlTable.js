@@ -23,7 +23,11 @@ const UrlTable = ({ urls, count, increment }) => {
   const listTable = urls.map(({ full, short, clicks }) => {
     return (
       <tr key={short}>
-        <td>{full}</td>
+        <td style={{display: 'block',
+  width: '50vw',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis'}}>{full}</td>
         <td
           style={{ color: "red", textDecoration: "underline" }}
           id={full}
@@ -39,7 +43,7 @@ const UrlTable = ({ urls, count, increment }) => {
     <Table striped bordered hover variant="dark" size="small">
       <thead>
         <tr>
-          <th>Full URL</th>
+          <th className="w-50">Full URL</th>
           <th>Short URL</th>
           <th>Clicks</th>
         </tr>
