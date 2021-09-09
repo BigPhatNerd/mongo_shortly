@@ -15,6 +15,7 @@ function App() {
   const [urlList, setUrlList] = useState([]);
   const [disableButton, setDisableButton] = useState(true);
   const [count, setCount] = useState(0);
+  const [showTable, setShowTable] = useState(false);
 
   const { full } = formData;
   const onChange = (e) => {
@@ -38,7 +39,7 @@ function App() {
     };
     getUrls();
   }, [count]);
-  console.log("count in APP: ", count);
+  
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -110,7 +111,37 @@ function App() {
             </Button>
           </Form>
         </Row>
-        <UrlTable urls={urlList} increment={increment} count={count} />
+        
+
+        <Row className="justify-content-center mb-3">
+          <p
+            onClick={() => setShowTable(!showTable)}
+            style={{ letterSpacing: "1px" }}
+          >
+            {showTable ? (
+              <>
+                <span role="img" aria-label="finger-down">
+                  👇{" "}
+                </span>
+                Close table{" "}
+                <span role="img" aria-label="finger-down">
+                  👇
+                </span>
+              </>
+            ) : (
+              <>
+                <span role="img" aria-label="finger-right">
+                  👉{" "}
+                </span>{" "}
+                Show previous url's{" "}
+                <span role="img" aria-label="finger-left">
+                  👈{" "}
+                </span>{" "}
+              </>
+            )}
+          </p>
+        </Row>
+     {   showTable && <UrlTable urls={urlList} increment={increment} count={count} /> }
       </Container>
     </>
   );
