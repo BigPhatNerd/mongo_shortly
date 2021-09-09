@@ -170,7 +170,7 @@ var Bounce = styled.div`
           </Row>
         ) : (
           <Row className="justify-content-center mb-3">
-            <p onClick={removeLink} style={{ letterSpacing: "1px" }}>
+            <h5 onClick={removeLink} style={{ letterSpacing: "1px" }}>
               {showTable ? (
                 <>
                   <span role="img" aria-label="finger-down">
@@ -192,7 +192,7 @@ var Bounce = styled.div`
                   </span>{" "}
                 </>
               )}
-            </p>
+            </h5>
           </Row>
         )}
         {showTable && (
