@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
-import { Container, Row, Form, Link, Button } from "react-bootstrap";
+import { Container, Row, Form, Button } from "react-bootstrap";
 import UrlTable from "./components/UrlTable";
 import "./App.css";
 import axios from "axios";
@@ -16,6 +16,7 @@ function App() {
   const [disableButton, setDisableButton] = useState(true);
   const [count, setCount] = useState(0);
   const [showTable, setShowTable] = useState(false);
+  const [shortenedLink, setShortenedLink] = useState('');
 
   const { full } = formData;
   const onChange = (e) => {
@@ -40,7 +41,21 @@ function App() {
     getUrls();
   }, [count]);
   
-
+ const countClick = async (e) => {
+   try {
+     const redirect = await axios.get(`/urls/${e.target.innerText}`);
+     if (redirect.status === 200) {
+       increment();
+       // window.location.href = e.target.id
+       window.open(e.target.id, "_blank");
+       return;
+     }
+   } catch (err) {
+     toast.error("😢 It's not you, it's us. 😢", {
+       backgroundColor: "black",
+     });
+   }
+ };
   const onSubmit = async (e) => {
     e.preventDefault();
     const config = {
@@ -55,12 +70,14 @@ function App() {
       if (res.data.error) {
         setFormData({ full: "" });
         toast.warn(res.data.error);
+        setShortenedLink('');
 
         return;
       }
       setUrlList((prevState) => [res.data, ...prevState]);
       setFormData({ full: "" });
       setDisableButton(false);
+      setShortenedLink(res.data)
     } catch (err) {
       
       //add error handling
@@ -83,8 +100,8 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-      <Container className="pt-3">
-        <Row className="justify-content-center">
+      <Container className="pt-3 ">
+        <Row className="justify-content-center mt-5">
           <h1>URL Shortener</h1>
         </Row>
         <Row className="justify-content-center">
@@ -111,7 +128,9 @@ function App() {
             </Button>
           </Form>
         </Row>
-        
+     {  shortenedLink !== '' && <Row className="justify-content-center mb-3">
+          <h3>Here is your url:  <span id={shortenedLink.full} onClick={countClick} style={{color: 'grey', textDecoration: 'underline'}}>{shortenedLink.short}</span></h3>
+        </Row> }
 
         <Row className="justify-content-center mb-3">
           <p
@@ -141,7 +160,9 @@ function App() {
             )}
           </p>
         </Row>
-     {   showTable && <UrlTable urls={urlList} increment={increment} count={count} /> }
+        {showTable && (
+          <UrlTable urls={urlList} increment={increment} count={count} />
+        )}
       </Container>
     </>
   );
