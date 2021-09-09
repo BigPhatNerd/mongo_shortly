@@ -3,11 +3,11 @@ const router = express.Router();
 
 const { getUrls, createUrls, goToUrl } = require('../controller')
 
-router.route("/").get(getUrls);
+router.route("/urls").get(getUrls);
 
 router.route('/shortUrls').post(createUrls);
 
-router.route('/:shortUrl').get(goToUrl);
+router.route('/urls/:shortUrl').get(goToUrl);
 
 
 
