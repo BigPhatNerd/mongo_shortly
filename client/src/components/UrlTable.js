@@ -1,26 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
+import AppContext from "../context/app/appContext";
 
-const UrlTable = ({ urls, count, increment }) => {
-  const registerClick = async (e) => {
-    try {
-      const redirect = await axios.get(`/urls/${e.target.innerText}`);
-      if (redirect.status === 200) {
-        increment();
-        // window.location.href = e.target.id
-        window.open(e.target.id, "_blank");
-        return;
-      }
-    } catch (err) {
-      toast.error("😢 It's not you, it's us. 😢", {
-        backgroundColor: "black",
-      });
-    }
-  };
-  console.log({ count });
-  const listTable = urls.map(({ full, short, clicks }) => {
+
+const UrlTable = () => {
+  const appContext = useContext(AppContext);
+  const { urlList, registerClick } = appContext
+  console.log("UrlTable: ", appContext)
+ 
+  
+  const listTable = urlList.map(({ full, short, clicks }) => {
+    {console.log("UrlTable: ", appContext)}
     return (
       <tr key={short}>
         <td style={{display: 'block',

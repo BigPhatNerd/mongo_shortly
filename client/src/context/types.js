@@ -1,0 +1,7 @@
+export const SET_FORM_DATA = 'SET_FORM_DATA';
+export const SET_SHORTENED_LINK = 'SET_SHORTENED_LINK';
+export const SET_URL_LIST = 'SET_URL_LIST';
+export const SET_DISABLE_BUTTON = 'SET_DISABLE_BUTTON';
+export const SET_COUNT = "SET_COUNT";
+export const SET_SHOW_TABLE = "SET_SHOW_TABLE";
+export const SET_HAS_BOUNCED = "SET_HAS_BOUNCED";
