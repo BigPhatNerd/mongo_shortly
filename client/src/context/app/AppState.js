@@ -12,29 +12,28 @@ import {
   SET_DISABLE_BUTTON,
   SET_COUNT,
   SET_SHOW_TABLE,
-  SET_HAS_BOUNCED
+  SET_HAS_BOUNCED,
 } from "../types";
 
 const AppState = (props) => {
   const initialState = {
     urlList: [],
-    formData: { full: ''},
+    formData: { full: "" },
 
     disableButton: true,
     showTable: false,
     shortenedLink: "",
     count: 0,
-    hasBounced: false
+    hasBounced: false,
   };
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
-  const handleCountClick = async (e, increment) =>{
+  const handleCountClick = async (e, increment) => {
     try {
       const redirect = await axios.get(`/urls/${e.target.innerText}`);
       if (redirect.status === 200) {
         increment();
-        // window.location.href = e.target.id
         window.open(e.target.id, "_blank");
         return;
       }
@@ -43,25 +42,21 @@ const AppState = (props) => {
         backgroundColor: "black",
       });
     }
-  }
-  const formOnChange = (e) =>{
-    console.log({e})
-    const {formData} = state
-    // setFormData({ ...formData, [e.target.name]: e.target.value });
-    // setDisableButton(false);
+  };
+  const formOnChange = (e) => {
+    console.log({ e });
+    const { formData } = state;
+
     dispatch({
       type: SET_FORM_DATA,
-      payload: {...formData, [e.target.name]: e.target.value}
+      payload: { ...formData, [e.target.name]: e.target.value },
     });
     dispatch({
       type: SET_DISABLE_BUTTON,
-      payload: false
-    })
-  }
+      payload: false,
+    });
+  };
   const removeLink = () => {
-    
-    // setShowTable(!showTable);
-    // setAppContext({ ...appContext, showTable: !showTable });
     dispatch({ type: SET_SHOW_TABLE, payload: !state.showTable });
   };
   const increment = () => {
@@ -72,8 +67,7 @@ const AppState = (props) => {
     try {
       const redirect = await axios.get(`/urls/${e.target.innerText}`);
       if (redirect.status === 200) {
-        // window.location.href = e.target.id
-        increment()
+        increment();
         window.open(e.target.id, "_blank");
         return;
       }
@@ -90,16 +84,14 @@ const AppState = (props) => {
       if (res.data.error) {
         toast.warn(res.data.error);
       }
-      
-      //    setUrlList(res.data);
-      if(res.data.length !== 0){
-      dispatch({ type: SET_URL_LIST, payload: res.data });
+
+      if (res.data.length !== 0) {
+        dispatch({ type: SET_URL_LIST, payload: res.data });
       }
     } catch (err) {
-      
-       toast.error("😢 It's not you, it's us. 😢", {
-         backgroundColor: "black",
-       });
+      toast.error("😢 It's not you, it's us. 😢", {
+        backgroundColor: "black",
+      });
     }
   };
 
@@ -113,29 +105,21 @@ const AppState = (props) => {
       const res = await axios.post("/shortUrls", formData, config);
 
       if (res.data.error) {
-        
-        dispatch({ type: SET_FORM_DATA, payload: {form: ''} });
+        dispatch({ type: SET_FORM_DATA, payload: { form: "" } });
         dispatch({ type: SET_SHORTENED_LINK, payload: {} });
-         dispatch({ type: SET_FORM_DATA, payload: { full: "" } });
-        //  setFormData({ full: "" });
+        dispatch({ type: SET_FORM_DATA, payload: { full: "" } });
+
         toast.warn(res.data.error);
-        //  setShortenedLink("");
 
         return;
       }
-      // dispatch({ type: SET_URL_LIST, payload: res.data });
+
       dispatch({ type: SET_COUNT, payload: state.count + 1 });
       dispatch({ type: SET_FORM_DATA, payload: { full: "" } });
-      //   setUrlList((prevState) => [res.data, ...prevState]);
-      //   setFormData({ full: "" });
-      //   setDisableButton(false);
       dispatch({ type: SET_DISABLE_BUTTON, payload: false });
       dispatch({ type: SET_SHORTENED_LINK, payload: res.data });
-      dispatch({ type: SET_HAS_BOUNCED, payload: true })
-      //   setShortenedLink(res.data);
+      dispatch({ type: SET_HAS_BOUNCED, payload: true });
     } catch (err) {
-      //add error handling
-
       toast.error("😢 It's not you, it's us. 😢", {
         backgroundColor: "black",
       });
@@ -159,7 +143,7 @@ const AppState = (props) => {
         increment,
         removeLink,
         formOnChange,
-        handleCountClick
+        handleCountClick,
       }}
     >
       {props.children}

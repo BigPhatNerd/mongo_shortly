@@ -1,13 +1,11 @@
-import React, {useContext} from 'react';
+import React, { useContext } from "react";
 import AppContext from "../context/app/appContext";
 
+const ShowTable = () => {
+  const appContext = useContext(AppContext);
+  const { showTable, removeLink } = appContext;
 
-const ShowTable = () =>{
-	const appContext = useContext(AppContext);
-	const {showTable, removeLink } = appContext
-console.log("UrlForm: ", appContext);
-	
-	return (
+  return (
     <h5 onClick={removeLink} style={{ letterSpacing: "1px" }}>
       {showTable ? (
         <>
@@ -32,6 +30,6 @@ console.log("UrlForm: ", appContext);
       )}
     </h5>
   );
-}
+};
 
-export default ShowTable
+export default ShowTable;

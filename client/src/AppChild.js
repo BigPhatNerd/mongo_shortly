@@ -50,7 +50,7 @@ getUrls()
           <Row className="justify-content-center mb-3">
             <BounceUsersLink />
           </Row>
-        ) : (shortenedLink && shortenedLink !== "") ? ( <Row className="justify-content-center mb-3">
+        ) : shortenedLink && shortenedLink ? ( <Row className="justify-content-center mb-3">
             <UsersLink />
           </Row>) : (null)}
         
